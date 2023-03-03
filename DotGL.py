@@ -44,7 +44,7 @@ class screen:
            self.__pixel_array = [[" " for i in range(self.screenX)] for j in range(self.screenY)]
     
     def pixel(self, x, y):
-            print(f"x:{x} y:{y}")
+            #print(f"x:{x} y:{y}")
             #if x < 0:
             #    x = int(x + self.screenX / 2)
             #else:
