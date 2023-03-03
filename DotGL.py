@@ -18,7 +18,7 @@ class screen:
             self.screenX = int(self.screenX/2)
             self.screenY = int(self.screenY)
         self.__pixel_array = [[" " for i in range(self.screenX)] for j in range(self.screenY)]
-        os.system(f'mode con: cols={screen_width} lines={screen_height}')
+        os.system(f'mode con: cols={screen_width} lines={screen_height+1}')
        
     #draws new screen  
     def update(self):
@@ -50,7 +50,8 @@ class screen:
             #else:
             #    x = int(x + self.screenX / 2)-1
             #y = -int(y - self.screenY / 2)
-            self.__pixel_array[-y][x] = "█"
+            self.__pixel_array[(len(self.screenY)-1)-y][x] = "█" 
+            #0,0 is at actualy top left ((len(self.screenY)-1)-y) flips that so if you want y=4 and the screen hight is 50 you would get the array index of 46
     
 #    def slope_line(self, x=0, y=0, rise=1, run=1, length=1, comp=True): #my dumb and bad way of doing slope
 #        rise = rise
