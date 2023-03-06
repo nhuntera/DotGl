@@ -8,101 +8,96 @@ import os
 
 class screen:
 
-    
+
     #sets screen and innitalizes array
     def __init__(self, screen_width=180, screen_height=52,compensate=False): #compensate treates 2 chars like one pixel (res:90x80)
         self.compensate = compensate
         self.screenX = screen_width
         self.screenY = screen_height
         if compensate:
-            self.screenX = int(self.screenX/2)
-            self.screenY = int(self.screenY)
+            self.screenX = round(self.screenX/2)
         self.__pixel_array = [[" " for i in range(self.screenX)] for j in range(self.screenY)]
         os.system(f'mode con: cols={screen_width} lines={screen_height+1}')
-       
-    #draws new screen  
+
+    #draws new screen
     def update(self):
         if os.name == 'nt':
             os.system('cls')
         else:
             os.system('clear')
         current_line = -1
-        current_row = 0
         if self.compensate:
             for line in self.__pixel_array:
                 current_line = current_line+1
+                current_row = -1
                 for row in self.__pixel_array[current_line]:
-                    print(row*2, end="")
-                print("")      
+                    current_row = current_row + 1
+                    print((self.__pixel_array[current_line][current_row-1])*2, end="")
+                print("")
             self.__pixel_array = [[" " for i in range(self.screenX)] for j in range(self.screenY)]
         else:
            for line in self.__pixel_array:
                current_line = current_line+1
                for row in self.__pixel_array[current_line]:
                    print(row, end="")
-               print("")      
+               print("")
            self.__pixel_array = [[" " for i in range(self.screenX)] for j in range(self.screenY)]
-    
+
     def pixel(self, x, y):
-            #print(f"x:{x} y:{y}")
-            #if x < 0:
-            #    x = int(x + self.screenX / 2)
-            #else:
-            #    x = int(x + self.screenX / 2)-1
-            #y = -int(y - self.screenY / 2)
-            self.__pixel_array[self.screenY-1-y][x] = "█" 
-            #0,0 is at actualy top left (self.screenY-1-y) flips that so if you want y=4 and the screen hight is 50 you would get the array index of 46
-    
-#    def slope_line(self, x=0, y=0, rise=1, run=1, length=1, comp=True): #my dumb and bad way of doing slope
-#        rise = rise
-#        posX = int(x)
-#        posY = int(y)
-#        if rise == 0 and comp:
-#            length = length*2
-#        for x in range(length):
-#            self.pixel(posX, posY)
-#            posX = posX + run
-#            posY = posY + rise
-  
-    def line(self,x1,y1,x2,y2):
-        dist_x = (x2-x1)
-        dist_y = (y2-y1)
-        x_direction = 1 if dist_x > 0 else -1
-        y_direction = 1 if dist_y > 0 else -1
-        if dist_x == 0: 
-            while y1 != y2 and (0 <= y1 < self.screenX):
-                self.pixel(int(x1),int(y1))
-                y1 = y1+y_direction
-            self.pixel(int(x1),int(y1))
-        if dist_y == 0:
-            while x1 != x2 and (0 <= x1 < self.screenX):
-                self.pixel(int(x1),int(y1))
-                x1 = x1+x_direction
-            self.pixel(int(x1),int(y1))
-        if dist_x > dist_y:
-            pass
-        if dist_x < dist_y:
-            pass
+            xpos = x
+            ypos = self.screenY-1-y
+            if self.compensate:
+                xpos=x-1
+            #print(f"{xpos},{ypos}")
+            self.__pixel_array[ypos][xpos] = "█"
+
+
+    def line(self, x0, y0, x1, y1):
+        #straight rip from Bresenham's line algorithm, sorry
+        dx = abs(x1 - x0)
+        dy = abs(y1 - y0)
+        x, y = x0, y0
+        sx = -1 if x0 > x1 else 1
+        sy = -1 if y0 > y1 else 1
+        if dx > dy:
+            err = dx / 2.0
+            while x != x1:
+                self.pixel(x, y)
+                err -= dy
+                if err < 0:
+                    y += sy
+                    err += dx
+                x += sx
+        else:
+            err = dy / 2.0
+            while y != y1:
+                self.pixel(x, y)
+                err -= dx
+                if err < 0:
+                    x += sx
+                    err += dy
+                y += sy
+        self.pixel(x, y)
+
+    def circle (x, y, r):
+
+        pass
+
+    def wireFrame(moddel):
+
+        for lines in moddel:
+           self.line(lines[0],lines[0],lines[0],lines[0])
+
 
     def debug(self):
-        if os.name == 'nt':
-            os.system('cls')
-        else:
-            os.system('clear')
-        current_line = -1
-        current_row = 0
-        if self.compensate:
-            for line in self.__pixel_array:
-                current_line = current_line+1
-                for row in self.__pixel_array[current_line]:
-                    print(row*2, end="")
-                print("")      
-            self.__pixel_array = [[" " for i in range(self.screenX)] for j in range(self.screenY)]
-        else:
-           for line in self.__pixel_array:
-               current_line = current_line+1
-               for row in self.__pixel_array[current_line]:
-                   print(current_line%10, end="")
-               print("")      
-           self.__pixel_array = [[" " for i in range(self.screenX)] for j in range(self.screenY)]
-    
+        toggel=1
+        line = self.screenY
+        lines = []
+        for y in range(self.screenY):
+                line = y
+                lines.append(y)
+                for x in range(self.screenX):
+                    self.pixel(x,line)
+
+        self.update()
+        print(lines)
