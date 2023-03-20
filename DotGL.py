@@ -6,7 +6,7 @@
 #For the love of god dont use this (unless you really want to)
 import os
 
-class screen:
+class Screen:
 
 
     #sets screen and innitalizes array
