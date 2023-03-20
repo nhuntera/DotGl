@@ -78,16 +78,7 @@ class screen:
                     err += dy
                 y += sy
         self.pixel(x, y)
-
-    def circle (x, y, r):
-
-        pass
-
-    def wireFrame(moddel):
-
-        for lines in moddel:
-           self.line(lines[0],lines[0],lines[0],lines[0])
-
+        
 
     def debug(self):
         toggel=1
