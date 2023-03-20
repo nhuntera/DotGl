@@ -1,5 +1,5 @@
 import DotGL
 
-draw = DotGL.screen(180,52,False)
+draw = DotGL.Screen(180,52,False)
 
 draw.debug()
