@@ -43,13 +43,13 @@ class Screen:
                print("")
            self.__pixel_array = [[" " for i in range(self.screenX)] for j in range(self.screenY)]
 
-    def pixel(self, x, y):
+    def pixel(self, x, y, char="█"):
             xpos = x
             ypos = self.screenY-1-y
             if self.compensate:
                 xpos=x-1
             #print(f"{xpos},{ypos}")
-            self.__pixel_array[ypos][xpos] = "█"
+            self.__pixel_array[ypos][xpos] = char
 
 
     def line(self, x0, y0, x1, y1):
