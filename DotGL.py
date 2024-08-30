@@ -11,7 +11,7 @@ class Screen:
     clear_string = "clear"
 
     #sets screen and innitalizes array
-    def __init__(self, screen_width=180, screen_height=52,compensate=False): #compensate treates 2 chars like one pixel (res:90x80)
+    def __init__(self, screen_width=180, screen_height=52,compensate=False): #compensate treates 2 chars like one pixel making the display wider per pixel
         
         self.compensate = compensate
         self.screenX = screen_width
