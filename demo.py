@@ -2,9 +2,10 @@ import DotGL
 import time
 import random
 
-#remove "False" to use pixel width compensation
-draw = DotGL.Screen(180,52,False)
-
+#add "True" to use pixel width compensation
+#if used use half the horizontal resolution you would
+draw = DotGL.Screen(180,52)
+#draw = DotGl.Screen(90, 52, True)
 
 #draw.debug()
 
